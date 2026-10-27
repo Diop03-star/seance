@@ -23,3 +23,29 @@ test('readNdjson signale une erreur en cours de flux', async () => {
   const res = new Response('{"t":"A"}\n{"error":"ollama_down"}\n');
   await assert.rejects(readNdjson(res, () => {}), /ollama_down/);
 });
+
+import { EXAMPLES } from '../public/examples.js';
+import { splitPossession } from '../public/possession.js';
+import { checkCode } from '../lib/limits.js';
+
+test('splitPossession sépare le bloc de code et le commentaire', () => {
+  const r = splitPossession('```cobol\nDISPLAY "HI".\n```\nMWAHAHA. TON CODE EST À MOI.');
+  assert.equal(r.code, 'DISPLAY "HI".');
+  assert.equal(r.comment, 'MWAHAHA. TON CODE EST À MOI.');
+});
+
+test('splitPossession sans bloc → code null', () => {
+  assert.deepEqual(splitPossession('Je refuse.'), { code: null, comment: 'Je refuse.' });
+});
+
+test('splitPossession accepte un bloc non fermé (réponse coupée)', () => {
+  assert.equal(splitPossession('```fortran\nPRINT *, 1').code, 'PRINT *, 1');
+});
+
+test('3 exemples valides', () => {
+  assert.equal(EXAMPLES.length, 3);
+  for (const ex of EXAMPLES) {
+    assert.deepEqual(checkCode(ex.code), { ok: true });
+    assert.ok(ex.code.split('\n').length <= 15);
+  }
+});

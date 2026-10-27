@@ -43,11 +43,22 @@
         <button id="possess-btn" class="btn ghost" type="button" data-i18n="possess"></button>
         <button id="release-btn" class="btn ghost danger" type="button" data-i18n="release"></button>
       </div>
+
+      <form id="possess-form" class="possess" hidden>
+        <p class="label" data-i18n="possessTitle"></p>
+        <div class="examples"><span data-i18n="examples"></span> <span id="examples"></span></div>
+        <textarea id="code" rows="10" spellcheck="false" data-i18n-ph="possessPlaceholder"></textarea>
+        <div class="actions">
+          <button class="btn" type="submit" data-i18n="possessGo"></button>
+          <button id="possess-cancel" class="btn ghost" type="button" data-i18n="cancel"></button>
+        </div>
+      </form>
     </section>
 
     <div class="scanlines" aria-hidden="true"></div>
   </div>
 
   <script type="module" src="app.js"></script>
+  <script type="module" src="possess-ui.js"></script>
 </body>
 </html>
