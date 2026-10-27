@@ -4,6 +4,7 @@ import http from 'node:http';
 import { createServer } from '../server.js';
 
 let fakeOllama, ollamaUrl;
+const received = [];
 
 function listen(server) {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(`http://127.0.0.1:${server.address().port}`)));
@@ -19,6 +20,7 @@ before(async () => {
         return res.end(JSON.stringify({ models: [{ name: 'gemma4:e2b' }] }));
       }
       if (req.url === '/api/chat') {
+        received.push(JSON.parse(body));
         const { stream } = JSON.parse(body);
         if (stream === false) {
           return res.end(JSON.stringify({ message: { content: '{"epitaph":"Ci-gît un test","last_words":"Adieu"}' }, done: true }));
@@ -102,4 +104,12 @@ test('fichiers statiques et pas de sortie de public/', () => withApp(ollamaUrl, 
   assert.equal((await fetch(base + '/lib/limits.js')).status, 200);
   assert.equal((await fetch(base + '/lib/prompts.js')).status, 404);
   assert.equal((await fetch(base + '/%2e%2e/server.js')).status, 404);
+}));
+
+test('les appels à Ollama désactivent le mode réflexion de Gemma 4', () => withApp(ollamaUrl, async (base) => {
+  received.length = 0;
+  await (await post(base, '/api/chat', { spiritId: 'basic', lang: 'en', mode: 'talk', history: [], input: 'hi' })).text();
+  await (await post(base, '/api/epitaph', { spiritId: 'basic', lang: 'en', history: [] })).json();
+  assert.equal(received.length, 2);
+  assert.ok(received.every((b) => b.think === false));
 }));

@@ -60,7 +60,17 @@ browser (vanilla HTML/CSS/JS)  ──►  server.js (Node, no deps)  ──►  
 
 ## Response times
 
-Measured on the development PC (CPU only) — see [`docs/timings.md`](docs/timings.md).
+Measured on the development PC (Windows 11, integrated AMD graphics, 13.8 GB RAM, CPU only), all four spirits in French and English — full transcripts in [`docs/timings.md`](docs/timings.md):
+
+| Moment | Time |
+|---|---|
+| Talk (2–4 sentences) | 7–14 s |
+| Possession (≈20 lines of code + comment) | 13–47 s |
+| Tombstone (JSON epitaph) | 10–21 s |
+
+Every answer stayed in character and in the chosen language; possession returned a code block 8/8 and the epitaph JSON parsed 8/8.
+
+> Gemma 4 has a "thinking" mode, on by default in Ollama. Left on, it burned the whole token budget thinking and answered nothing — the app sends `think: false`.
 
 ## License
 
