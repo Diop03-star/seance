@@ -1,0 +1,11 @@
+{
+  "name": "seance",
+  "version": "1.0.0",
+  "description": "Summon the ghosts of old programming languages with a local open-weight model (Gemma 4 via Ollama).",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}
