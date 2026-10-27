@@ -1,2 +1,53 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><title>Séance</title></head><body>SÉANCE.EXE</body></html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Séance</title>
+  <meta name="description" content="Summon the ghosts of old programming languages with Gemma 4 running locally via Ollama.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='black'/><text x='16' y='24' font-size='22' text-anchor='middle' fill='%2339ff6a' font-family='monospace'>&gt;_</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="crt">
+    <header class="bar">
+      <span class="title">SÉANCE.EXE</span>
+      <span id="status" class="status" aria-live="polite"></span>
+      <button id="lang" class="lang" type="button" aria-label="Langue / Language">EN</button>
+    </header>
+
+    <!-- 1. Invocation -->
+    <section id="screen-choose" class="screen">
+      <p class="tagline" data-i18n="tagline"></p>
+      <h2 class="label" data-i18n="chooseSpirit"></h2>
+      <div id="spirits" class="spirits" role="radiogroup"></div>
+      <form id="invoke-form" class="invoke">
+        <label class="label" for="formula" data-i18n="formula"></label>
+        <div class="prompt-line">
+          <span class="caret">&gt;</span>
+          <input id="formula" autocomplete="off" spellcheck="false">
+        </div>
+        <button class="btn" type="submit" data-i18n="invoke"></button>
+      </form>
+    </section>
+
+    <!-- 2. Séance -->
+    <section id="screen-seance" class="screen" hidden>
+      <div id="log" class="log" aria-live="polite"></div>
+      <form id="talk-form" class="talk">
+        <span class="caret">&gt;</span>
+        <input id="talk" autocomplete="off" spellcheck="false">
+        <button class="btn" type="submit" data-i18n="send"></button>
+      </form>
+      <div class="actions">
+        <button id="possess-btn" class="btn ghost" type="button" data-i18n="possess"></button>
+        <button id="release-btn" class="btn ghost danger" type="button" data-i18n="release"></button>
+      </div>
+    </section>
+
+    <div class="scanlines" aria-hidden="true"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
