@@ -18,6 +18,8 @@ export const PROGRESSION = [
 ];
 const THEREMIN = ['A4', 'B4', 'C5', 'E5', 'F5', 'G#4', 'E4', 'D5'];
 const CHORD_SECONDS = 6;
+// Loud enough for laptop speakers; the compressor keeps the peaks in check.
+const MASTER_GAIN = 0.9;
 
 let ctx = null;
 let master = null;
@@ -37,7 +39,7 @@ export function setEnabled(on) {
   enabled = on;
   try { localStorage.setItem('seance-sound', on ? 'on' : 'off'); } catch { /* private mode */ }
   if (!ctx) return;
-  master.gain.setTargetAtTime(on ? 0.5 : 0, ctx.currentTime, 0.3);
+  master.gain.setTargetAtTime(on ? MASTER_GAIN : 0, ctx.currentTime, 0.3);
   if (on) startAmbient(); else stopAmbient();
 }
 
@@ -47,7 +49,7 @@ export function unlock() {
   if (!ctx) {
     ctx = new AudioContext();
     master = ctx.createGain();
-    master.gain.value = enabled ? 0.5 : 0;
+    master.gain.value = enabled ? MASTER_GAIN : 0;
     const comp = ctx.createDynamicsCompressor();
     master.connect(comp).connect(ctx.destination);
     reverb = makeReverb(3.5);
@@ -113,11 +115,11 @@ function organChord(chord, start) {
   const soft = mood === 'farewell' ? 0.6 : 1;
   for (const n of chord) {
     const f = noteFreq(n);
-    voice({ type: 'triangle', freq: f, start, dur, gain: 0.05 * soft, attack: 1.8, release: 2.2, wet: 0.7, filter: 1400 });
-    voice({ type: 'sawtooth', freq: f, start, dur, gain: 0.012 * soft, attack: 2, release: 2, wet: 0.8, detune: 7, filter: 900 });
+    voice({ type: 'triangle', freq: f, start, dur, gain: 0.13 * soft, attack: 1.8, release: 2.2, wet: 0.7, filter: 1400 });
+    voice({ type: 'sawtooth', freq: f, start, dur, gain: 0.03 * soft, attack: 2, release: 2, wet: 0.8, detune: 7, filter: 900 });
   }
   // the drone: the root, two octaves down, never quite still
-  voice({ type: 'sine', freq: noteFreq(chord[0]) / 2, start, dur, gain: 0.08 * soft, attack: 2, release: 2, wet: 0.4 });
+  voice({ type: 'sine', freq: noteFreq(chord[0]) / 2, start, dur, gain: 0.2 * soft, attack: 2, release: 2, wet: 0.4 });
 }
 
 function theremin(start) {
@@ -135,7 +137,7 @@ function theremin(start) {
   osc.frequency.exponentialRampToValueAtTime(notes[1], start + 1.6); // the glide is the ghost
   osc.frequency.exponentialRampToValueAtTime(notes[2], start + 3.2);
   env.gain.setValueAtTime(0, start);
-  env.gain.linearRampToValueAtTime(0.035, start + 0.8);
+  env.gain.linearRampToValueAtTime(0.09, start + 0.8);
   env.gain.linearRampToValueAtTime(0, start + dur);
   const send = ctx.createGain();
   send.gain.value = 0.8;
@@ -157,7 +159,7 @@ function wind(start) {
   bp.frequency.linearRampToValueAtTime(250, start + 7);
   const env = ctx.createGain();
   env.gain.setValueAtTime(0, start);
-  env.gain.linearRampToValueAtTime(0.06, start + 3);
+  env.gain.linearRampToValueAtTime(0.14, start + 3);
   env.gain.linearRampToValueAtTime(0, start + 7);
   src.connect(bp).connect(env).connect(master);
   src.start(start);
@@ -195,7 +197,7 @@ export function tick() {
   const now = ctx.currentTime;
   if (now - lastTick < 0.035) return;
   lastTick = now;
-  voice({ type: 'square', freq: 1800 + Math.random() * 600, start: now, dur: 0.018, gain: 0.012, attack: 0.001, release: 0.012, wet: 0.1 });
+  voice({ type: 'square', freq: 1800 + Math.random() * 600, start: now, dur: 0.018, gain: 0.025, attack: 0.001, release: 0.012, wet: 0.1 });
 }
 
 // Invocation: the veil tears (rising noise), then a low boom.
@@ -210,7 +212,7 @@ export function summon() {
   hp.frequency.exponentialRampToValueAtTime(4000, now + 1.1);
   const env = ctx.createGain();
   env.gain.setValueAtTime(0, now);
-  env.gain.linearRampToValueAtTime(0.25, now + 1);
+  env.gain.linearRampToValueAtTime(0.4, now + 1);
   env.gain.linearRampToValueAtTime(0, now + 1.3);
   src.connect(hp).connect(env).connect(reverb);
   src.start(now);
