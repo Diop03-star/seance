@@ -1,6 +1,7 @@
 import { t } from './i18n.js';
 import { readNdjson } from './stream.js';
 import { remember } from './history.js';
+import * as sound from './audio.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -22,6 +23,7 @@ export const spirit = () => state.spirits.find((s) => s.id === state.spiritId);
 function applyLang() {
   document.documentElement.lang = state.lang;
   $('#lang').textContent = state.lang === 'fr' ? 'EN' : 'FR';
+  updateSoundButton();
   for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n, state.lang);
   for (const el of document.querySelectorAll('[data-i18n-ph]')) el.placeholder = t(el.dataset.i18nPh, state.lang);
   $('#talk').placeholder = t('placeholder', state.lang);
@@ -33,6 +35,21 @@ function applyLang() {
 function updateFormulaHint() {
   const s = spirit() ?? state.spirits[0];
   if (s) $('#formula').placeholder = t('formulaHint', state.lang, { name: s.name });
+}
+
+// ---------- sound ----------
+
+function updateSoundButton() {
+  const on = sound.isEnabled();
+  const b = $('#sound');
+  b.textContent = on ? '♪ ON' : '♪ OFF';
+  b.setAttribute('aria-pressed', String(on));
+  b.title = t(on ? 'soundOff' : 'soundOn', state.lang);
+}
+
+// Browsers only allow audio after a user gesture: the first click anywhere wakes the music.
+function wakeSound() {
+  if (sound.unlock()) sound.startAmbient();
 }
 
 // ---------- status ----------
@@ -87,6 +104,7 @@ export function typewriter(el) {
     while (queue.length) {
       const n = queue.length > 120 ? 4 : 1; // catch up when the model outruns the typing
       el.textContent += queue.slice(0, n);
+      if (queue[0] !== ' ') sound.tick();
       queue = queue.slice(n);
       scrollLog();
       if (speed) await sleep(speed);
@@ -114,6 +132,7 @@ export function addTiming(p, ms) {
 function glitch(el) {
   if (reducedMotion || Math.random() > 0.2) return;
   el.classList.add('glitch');
+  sound.glitch();
   setTimeout(() => el.classList.remove('glitch'), 500);
 }
 
@@ -218,6 +237,8 @@ export async function invoke(spiritId) {
   const crt = document.querySelector('.crt');
   logLine('sys', `> invoke --spirit=${s.id}`);
   logLine('sys', t('summoning', state.lang));
+  sound.setMood('seance');
+  sound.summon();
   crt.classList.add('summoning');
   await sleep(reducedMotion ? 0 : 1200);
   crt.classList.remove('summoning');
@@ -263,6 +284,13 @@ async function boot() {
     saveLang();
     applyLang();
   });
+  $('#sound').addEventListener('click', () => {
+    sound.unlock();
+    sound.setEnabled(!sound.isEnabled());
+    updateSoundButton();
+  });
+  document.addEventListener('pointerdown', wakeSound, { once: true });
+  document.addEventListener('keydown', wakeSound, { once: true });
   $('#invoke-form').addEventListener('submit', (e) => { e.preventDefault(); invoke(state.spiritId); });
   $('#talk-form').addEventListener('submit', talk);
   document.dispatchEvent(new CustomEvent('seance:ready'));

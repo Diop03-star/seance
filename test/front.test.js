@@ -72,3 +72,19 @@ test("l'historique du navigateur reste borné", () => {
   assert.ok(JSON.stringify(h).length < 64 * 1024);
   assert.equal(h.at(-1).content, 'y');
 });
+
+import { noteFreq, PROGRESSION } from '../public/audio.js';
+
+test('noteFreq : la4 = 440 Hz, la3 = 220 Hz', () => {
+  assert.equal(noteFreq('A4'), 440);
+  assert.equal(noteFreq('A3'), 220);
+  assert.ok(Math.abs(noteFreq('C4') - 261.63) < 0.01);
+});
+
+test('la progression est en accords de 3 notes valides', () => {
+  assert.ok(PROGRESSION.length >= 4);
+  for (const chord of PROGRESSION) {
+    assert.equal(chord.length, 3);
+    assert.ok(chord.every((n) => noteFreq(n) > 50));
+  }
+});

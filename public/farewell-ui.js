@@ -1,5 +1,6 @@
 import { t } from './i18n.js';
 import { renderTombstone, drawTombstonePng } from './tombstone.js';
+import * as sound from './audio.js';
 import { state, spirit, logLine, setBusy, typewriter, addTiming, backToChoose, scrollLog } from './app.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -55,6 +56,8 @@ async function showFarewell() {
   section.classList.remove('farewell');
   void section.offsetWidth; // restart the fade-in
   section.classList.add('farewell');
+  sound.setMood('farewell');
+  sound.bell();
 
   renderTombstone($('#tomb'), { ...stone, dateLabel: dateLabel(), hereLies: t('hereLies', state.lang) });
   const p = $('#last-words');

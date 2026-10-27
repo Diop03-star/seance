@@ -33,6 +33,8 @@ export const STRINGS = {
     statusNoModel: 'modèle absent (ollama pull gemma4:e2b)',
     statusDown: 'Ollama injoignable',
     fallbackNote: '(épitaphe gravée par la tradition)',
+    soundOn: 'Activer la musique',
+    soundOff: 'Couper la musique',
   },
   en: {
     tagline: 'Summon the spirit of a dead language. It lives in your machine, not in the cloud.',
@@ -68,6 +70,8 @@ export const STRINGS = {
     statusNoModel: 'model missing (ollama pull gemma4:e2b)',
     statusDown: 'Ollama unreachable',
     fallbackNote: '(epitaph carved by tradition)',
+    soundOn: 'Turn music on',
+    soundOff: 'Turn music off',
   },
 };
 

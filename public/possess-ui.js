@@ -2,6 +2,7 @@ import { t } from './i18n.js';
 import { checkCode } from '../lib/limits.js';
 import { EXAMPLES } from './examples.js';
 import { splitPossession } from './possession.js';
+import * as sound from './audio.js';
 // app.js finishes booting (it awaits /api/spirits) after this module has registered its listener.
 import { state, spirit, ask, logLine, logError, setBusy, scrollLog } from './app.js';
 
@@ -50,6 +51,7 @@ async function possess(e) {
   $('#code').value = '';
   const userLine = logLine('user', '', t('you', state.lang));
   userLine.body.append(codeBlock('</>', code.trimEnd(), 'modern'));
+  sound.possess();
   setBusy(true);
 
   let raw;

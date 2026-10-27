@@ -22,6 +22,8 @@ Everything runs locally on an open-weight model: **Gemma 4 (`gemma4:e2b`) throug
 
 The interface and the spirits speak **French or English** (toggle in the top-right corner).
 
+**Original Halloween soundtrack, synthesized live** with the Web Audio API — no audio files, so it works offline too: a slow A-minor crypt organ over a drone, a wandering theremin, gusts of wind, phosphor clicks while the spirit types, a tearing veil and a boom at the invocation, a dissonant organ stab for possessions, and a distant church bell for the farewell. Toggle with **♪ ON / OFF** (`public/audio.js`).
+
 ## Run it
 
 Requirements: [Node.js](https://nodejs.org) 22+ and [Ollama](https://ollama.com).
