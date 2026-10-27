@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SÉANCE.EXE</title>
+  <meta name="description" content="Summon the ghosts of COBOL, FORTRAN, BASIC and PASCAL with Gemma 4 running locally — no cloud, no GPU, no internet.">
+  <meta property="og:title" content="SÉANCE.EXE — summon the ghosts of dead programming languages">
+  <meta property="og:description" content="An open-weight séance: Gemma 4 via Ollama, on a laptop with no GPU, Wi-Fi off.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='black'/><text x='16' y='24' font-size='22' text-anchor='middle' fill='%2339ff6a' font-family='monospace'>&gt;_</text></svg>">
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="tombstone.css">
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="bar">
+    <span class="title">SÉANCE.EXE</span>
+    <nav>
+      <a href="#seance" data-t="navDemo"></a>
+      <a href="#run" data-t="navRun"></a>
+      <a id="gh-link" href="https://github.com/TODO-your-username/seance">GitHub</a>
+    </nav>
+    <button id="lang" class="chip" type="button">FR</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="prompt">&gt; invoke --spirit=cobol</p>
+      <h1 data-t="heroTitle"></h1>
+      <p class="quote"><span class="who">COBOL&gt;</span> <span data-t="heroQuote"></span></p>
+      <p class="lede" data-t="heroLede"></p>
+      <div class="badges">
+        <span>Gemma 4 E2B</span><span>Ollama</span><span data-t="badgeOffline"></span><span data-t="badgeCpu"></span><span data-t="badgeDeps"></span>
+      </div>
+      <div class="cta">
+        <a class="btn" href="#run" data-t="ctaRun"></a>
+        <a class="btn ghost" id="article-link" href="https://dev.to/TODO" data-t="ctaArticle"></a>
+      </div>
+    </section>
+
+    <section id="seance">
+      <h2 data-t="replayTitle"></h2>
+      <p class="note" data-t="replayNote"></p>
+      <div class="terminal">
+        <div id="replay" class="log" aria-live="off"></div>
+        <button id="replay-btn" class="btn ghost" type="button" data-t="replayAgain"></button>
+      </div>
+      <div id="tomb" class="tomb-wrap" hidden></div>
+    </section>
+
+    <section>
+      <h2 data-t="momentsTitle"></h2>
+      <ol class="moments">
+        <li><b data-t="m1t"></b> <span data-t="m1"></span></li>
+        <li><b data-t="m2t"></b> <span data-t="m2"></span></li>
+        <li><b data-t="m3t"></b> <span data-t="m3"></span></li>
+        <li><b data-t="m4t"></b> <span data-t="m4"></span></li>
+      </ol>
+    </section>
+
+    <section>
+      <h2 data-t="spiritsTitle"></h2>
+      <div class="spirits">
+        <article><pre>   .-""""""-.
+  /  _    _  \
+ |  (o)  (o)  |
+  \  '----'  /</pre><h3>COBOL <small>1959</small></h3><p data-t="sCobol"></p></article>
+        <article><pre>    _______
+   |  @   @  |  * . *
+   |    >    | .  o .
+    \  ===  /</pre><h3>FORTRAN <small>1957</small></h3><p data-t="sFortran"></p></article>
+        <article><pre>    .-------.
+    | o   o |
+    |  \_/  |
+   10 PRINT "BOO"</pre><h3>BASIC <small>1964</small></h3><p data-t="sBasic"></p></article>
+        <article><pre>     _______
+    ( -   - )
+     \_____/
+    ;  END.  ;</pre><h3>PASCAL <small>1970</small></h3><p data-t="sPascal"></p></article>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-t="videoTitle"></h2>
+      <!-- TODO: replace with your video embed, e.g. <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" ...> -->
+      <div class="video-slot" data-t="videoSoon"></div>
+    </section>
+
+    <section id="run">
+      <h2 data-t="runTitle"></h2>
+      <p data-t="runReq"></p>
+      <pre class="code"><span class="c"># 1.</span> ollama pull gemma4:e2b
+<span class="c"># 2.</span> git clone <span id="clone-url">https://github.com/TODO-your-username/seance</span>
+<span class="c"># 3.</span> cd seance &amp;&amp; node server.js
+<span class="c"># 4.</span> → http://localhost:3666</pre>
+      <p class="note" data-t="runWin"></p>
+    </section>
+
+    <section>
+      <h2 data-t="whyTitle"></h2>
+      <ul class="why">
+        <li><b data-t="w1t"></b> <span data-t="w1"></span></li>
+        <li><b data-t="w2t"></b> <span data-t="w2"></span></li>
+        <li><b data-t="w3t"></b> <span data-t="w3"></span></li>
+        <li><b data-t="w4t"></b> <span data-t="w4"></span></li>
+      </ul>
+      <table class="times">
+        <thead><tr><th data-t="tMoment"></th><th data-t="tTime"></th></tr></thead>
+        <tbody>
+          <tr><td data-t="tTalk"></td><td>7–14 s</td></tr>
+          <tr><td data-t="tPossess"></td><td>13–47 s</td></tr>
+          <tr><td data-t="tTomb"></td><td>10–21 s</td></tr>
+        </tbody>
+      </table>
+      <p class="note" data-t="tNote"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p data-t="footer"></p>
+  </footer>
+
+  <script type="module" src="site.js"></script>
+</body>
+</html>

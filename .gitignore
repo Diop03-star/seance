@@ -1,2 +1,4 @@
 .superpowers/
 node_modules/
+site/tombstone.js
+site/tombstone.css
