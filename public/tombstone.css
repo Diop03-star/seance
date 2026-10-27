@@ -1,0 +1,112 @@
+/* The farewell scene — ported from the validated mockup (pierre-tombale-v3). */
+.farewell { animation: fadein 1.6s ease-out both; }
+@keyframes fadein { from { opacity: 0; filter: blur(6px); } to { opacity: 1; filter: none; } }
+.last-words { min-height: 3em; margin: 0 0 14px; color: #b8ffcb; }
+
+.tomb-scene {
+  position: relative; height: 560px; overflow: hidden; border: 1px solid var(--green-dim); text-shadow: none;
+  background: linear-gradient(#05080a 0%, #0d1714 55%, #111a12 100%);
+}
+.moon {
+  position: absolute; right: 12%; top: 6%; width: 64px; height: 64px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #f1f6f1, #b9c9bc 60%, #9fb3a4);
+  box-shadow: 0 0 40px 16px rgba(160, 190, 170, .25), 0 0 120px 50px rgba(60, 80, 70, .3);
+}
+.stone {
+  position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%) rotate(-1.5deg);
+  width: 300px; height: 390px; border-radius: 150px 150px 8px 8px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .07) 0 1px, transparent 2px) 0 0 / 7px 7px,
+    radial-gradient(circle at 70% 60%, rgba(0, 0, 0, .18) 0 1px, transparent 2px) 0 0 / 5px 5px,
+    radial-gradient(ellipse at 35% 20%, #8d918c, #5d625d 45%, #3c403c 100%);
+  box-shadow: inset -18px -10px 30px rgba(0, 0, 0, .55), inset 10px 8px 18px rgba(255, 255, 255, .08), 0 10px 30px rgba(0, 0, 0, .8);
+}
+.moss { position: absolute; }
+.moss-a { left: -4px; bottom: 0; width: 110px; height: 84px; border-radius: 0 70px 0 8px; background: radial-gradient(circle at 20% 90%, rgba(70, 110, 40, .85), rgba(60, 95, 35, .5) 40%, transparent 70%); }
+.moss-b { right: 12px; top: 48px; width: 48px; height: 30px; background: radial-gradient(rgba(80, 120, 50, .6), transparent 70%); }
+.crack { position: absolute; right: 44px; top: 36px; }
+.engraving {
+  position: absolute; inset: 52px 26px 0; text-align: center; font-family: Georgia, "Times New Roman", serif;
+  color: #3a3d39; text-shadow: 1px 1px 0 rgba(255, 255, 255, .18), -1px -1px 1px rgba(0, 0, 0, .6);
+}
+.engraving .cross { font-size: 34px; line-height: 1; }
+.engraving .here { font-size: 13px; letter-spacing: 4px; margin-top: 6px; }
+.engraving .name { font-size: 36px; letter-spacing: 5px; font-weight: bold; margin: 6px 0 2px; }
+.engraving .dates { font-size: 14px; letter-spacing: 3px; }
+.engraving .rule { width: 130px; height: 1px; margin: 14px auto; background: rgba(0, 0, 0, .4); box-shadow: 0 1px 0 rgba(255, 255, 255, .12); }
+.engraving .epitaph { font-size: 15px; font-style: italic; line-height: 1.45; }
+.engraving .closing { font-size: 11px; letter-spacing: 2px; margin-top: 16px; }
+.stone-light {
+  position: absolute; left: 50%; bottom: 70px; transform: translateX(-50%) rotate(-1.5deg); pointer-events: none;
+  width: 300px; height: 390px; border-radius: 150px 150px 8px 8px;
+  background: radial-gradient(ellipse at 12% 100%, rgba(255, 150, 50, .3), transparent 45%), radial-gradient(ellipse at 90% 100%, rgba(255, 150, 50, .24), transparent 45%);
+  animation: stoneglow 1.3s infinite alternate ease-in-out;
+}
+.ground { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(#18230f, #0a0f07); }
+.grass { position: absolute; left: 0; right: 0; bottom: 66px; height: 28px; background: repeating-linear-gradient(100deg, transparent 0 3px, #1f3313 3px 5px); opacity: .9; }
+
+.candle {
+  position: absolute; bottom: 54px; width: var(--w, 16px); height: var(--h, 60px); border-radius: 3px 3px 2px 2px;
+  background: linear-gradient(90deg, #b9a98a 0%, #f3e9d2 35%, #fff7e6 50%, #e6d7b8 70%, #9c8c6e 100%);
+  box-shadow: 0 0 18px rgba(255, 170, 60, .25);
+}
+.candle::before { content: ""; position: absolute; top: -2px; left: 15%; width: 30%; height: 18px; border-radius: 0 0 6px 6px; background: linear-gradient(#fff7e6, #efe2c4); }
+.candle::after { content: ""; position: absolute; top: -1px; right: 12%; width: 22%; height: 26px; border-radius: 0 0 5px 5px; background: linear-gradient(#fbf1dc, #e2d3b2); }
+.wick { position: absolute; left: 50%; top: -8px; width: 2px; height: 9px; margin-left: -1px; background: linear-gradient(#222, #5a4630); border-radius: 1px; }
+.flame {
+  position: absolute; left: 50%; bottom: calc(100% + 4px); width: 13px; height: 32px; margin-left: -6.5px;
+  border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+  background: radial-gradient(ellipse at 50% 85%, #fff 0%, #fff6c2 18%, #ffc94a 40%, #ff7a1a 68%, rgba(255, 60, 0, 0) 80%);
+  filter: blur(.4px); transform-origin: 50% 100%; animation: candleflicker 1.3s infinite alternate ease-in-out;
+}
+.flame::before { content: ""; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 9px; margin-left: -2.5px; border-radius: 50%; background: radial-gradient(#3a6bff, rgba(40, 80, 255, 0) 70%); opacity: .7; }
+.glow {
+  position: absolute; left: 50%; bottom: calc(100% - 8px); width: 150px; height: 150px; margin-left: -75px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 170, 60, .35), rgba(255, 120, 30, .12) 40%, transparent 70%);
+  animation: candleglow 1.3s infinite alternate ease-in-out;
+}
+.c2 .flame, .c2 .glow { animation-duration: 1.05s; animation-delay: -.4s; }
+.c3 .flame, .c3 .glow { animation-duration: 1.55s; animation-delay: -.8s; }
+.c4 .flame, .c4 .glow { animation-duration: 1.2s; animation-delay: -.2s; }
+@keyframes candleflicker {
+  0% { transform: scale(1, 1) rotate(-1deg); }
+  20% { transform: scale(.95, 1.08) rotate(2deg); }
+  45% { transform: scale(1.04, .94) rotate(-2deg); }
+  70% { transform: scale(.97, 1.1) rotate(1deg); }
+  100% { transform: scale(1.02, .97) rotate(-1.5deg); }
+}
+@keyframes candleglow { 0% { opacity: .75; transform: scale(1); } 50% { opacity: 1; } 100% { opacity: .82; transform: scale(1.06); } }
+@keyframes stoneglow { 0% { opacity: .75; } 100% { opacity: 1; } }
+
+/* Marigolds (cempasúchil), drawn with gradients — no emoji. */
+.marigold {
+  position: absolute; border-radius: 50%;
+  background:
+    radial-gradient(circle, #6b2a00 0 10%, transparent 12%),
+    repeating-conic-gradient(from 10deg, #ff8c00 0 12deg, #ffa51f 12deg 24deg),
+    #ff8c00;
+  -webkit-mask: radial-gradient(circle, #000 62%, transparent 66%);
+  mask: radial-gradient(circle, #000 62%, transparent 66%);
+  box-shadow: 0 0 10px rgba(255, 140, 0, .4);
+}
+.fog {
+  position: absolute; left: -10%; right: -10%; bottom: 24px; height: 110px; pointer-events: none;
+  background: radial-gradient(ellipse at 30% 60%, rgba(200, 215, 205, .18), transparent 60%), radial-gradient(ellipse at 75% 70%, rgba(200, 215, 205, .14), transparent 55%);
+  animation: drift 14s infinite alternate ease-in-out;
+}
+@keyframes drift { from { transform: translateX(-3%); } to { transform: translateX(3%); } }
+.tomb-date { position: absolute; right: 12px; bottom: 8px; font-size: 11px; color: var(--green); opacity: .6; text-shadow: 0 0 6px var(--green); }
+
+@media (max-width: 600px) {
+  .tomb-scene { height: 480px; }
+  .stone, .stone-light { width: 250px; height: 330px; }
+  .engraving { inset: 40px 18px 0; }
+  .engraving .name { font-size: 28px; }
+  .candle.c1 { left: calc(50% - 160px) !important; }
+  .candle.c2 { left: calc(50% - 138px) !important; }
+  .candle.c3 { left: calc(50% + 126px) !important; }
+  .candle.c4 { left: calc(50% + 148px) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .farewell, .flame, .glow, .stone-light, .fog { animation: none !important; }
+}

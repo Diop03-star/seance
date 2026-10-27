@@ -49,3 +49,16 @@ test('3 exemples valides', () => {
     assert.ok(ex.code.split('\n').length <= 15);
   }
 });
+
+import { wrapLines } from '../public/tombstone.js';
+
+test('wrapLines coupe en lignes courtes sans perdre de mots', () => {
+  const lines = wrapLines('Il paya vos salaires sans jamais réclamer de mise à jour', 22);
+  assert.equal(lines.length, 3);
+  assert.ok(lines.every((l) => l.length <= 22));
+  assert.equal(lines.join(' '), 'Il paya vos salaires sans jamais réclamer de mise à jour');
+});
+
+test('wrapLines coupe un mot trop long', () => {
+  assert.ok(wrapLines('x'.repeat(50), 20).every((l) => l.length <= 20));
+});

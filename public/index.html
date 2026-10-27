@@ -7,6 +7,7 @@
   <meta name="description" content="Summon the ghosts of old programming languages with Gemma 4 running locally via Ollama.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='black'/><text x='16' y='24' font-size='22' text-anchor='middle' fill='%2339ff6a' font-family='monospace'>&gt;_</text></svg>">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="tombstone.css">
 </head>
 <body>
   <div class="crt">
@@ -55,10 +56,22 @@
       </form>
     </section>
 
+    <!-- 3. Adieu -->
+    <section id="screen-farewell" class="screen" hidden>
+      <p id="last-words" class="last-words" aria-live="polite"></p>
+      <div id="tomb"></div>
+      <p id="fallback-note" class="sys-note" data-i18n="fallbackNote" hidden></p>
+      <div class="actions">
+        <button id="download-btn" class="btn" type="button" data-i18n="download"></button>
+        <button id="new-btn" class="btn ghost" type="button" data-i18n="newSeance"></button>
+      </div>
+    </section>
+
     <div class="scanlines" aria-hidden="true"></div>
   </div>
 
   <script type="module" src="app.js"></script>
   <script type="module" src="possess-ui.js"></script>
+  <script type="module" src="farewell-ui.js"></script>
 </body>
 </html>
