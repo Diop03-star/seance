@@ -62,3 +62,13 @@ test('wrapLines coupe en lignes courtes sans perdre de mots', () => {
 test('wrapLines coupe un mot trop long', () => {
   assert.ok(wrapLines('x'.repeat(50), 20).every((l) => l.length <= 20));
 });
+
+import { remember, HISTORY_KEEP } from '../public/history.js';
+
+test("l'historique du navigateur reste borné", () => {
+  const h = [];
+  for (let i = 0; i < 40; i++) remember(h, { role: 'user', content: 'x'.repeat(4000) }, { role: 'assistant', content: 'y' });
+  assert.equal(h.length, HISTORY_KEEP);
+  assert.ok(JSON.stringify(h).length < 64 * 1024);
+  assert.equal(h.at(-1).content, 'y');
+});

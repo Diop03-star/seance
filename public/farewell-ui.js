@@ -27,6 +27,7 @@ async function release() {
   const s = spirit();
   setBusy(true);
   $('#possess-form').hidden = true;
+  $('#possess-btn').hidden = false;
   logLine('sys', `> release --spirit=${s.id}`);
   const engraving = logLine('sys', t('engraving', state.lang));
   engraving.body.classList.add('cursor');

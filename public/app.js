@@ -1,5 +1,6 @@
 import { t } from './i18n.js';
 import { readNdjson } from './stream.js';
+import { remember } from './history.js';
 
 const $ = (sel) => document.querySelector(sel);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -151,7 +152,7 @@ export async function ask(input, mode, { render } = {}) {
     await writer.flush();
     addTiming(p, ms);
     glitch(p);
-    state.history.push({ role: 'user', content: input }, { role: 'assistant', content: full });
+    remember(state.history, { role: 'user', content: input }, { role: 'assistant', content: full });
     return full;
   } catch (err) {
     thinking.p.remove();
@@ -210,6 +211,8 @@ export async function invoke(spiritId) {
   $('#screen-choose').hidden = true;
   $('#screen-seance').hidden = false;
   $('#log').replaceChildren();
+  $('#possess-form').hidden = true;
+  $('#possess-btn').hidden = false;
   setBusy(true);
 
   const crt = document.querySelector('.crt');
@@ -234,7 +237,7 @@ export async function invoke(spiritId) {
   w.push(s.greeting[state.lang]);
   await w.flush();
   body.classList.remove('cursor');
-  state.history.push({ role: 'assistant', content: s.greeting[state.lang] });
+  remember(state.history, { role: 'assistant', content: s.greeting[state.lang] });
   setBusy(false);
   $('#talk').focus();
 }

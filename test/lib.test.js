@@ -24,7 +24,8 @@ test('le prompt système impose la langue', () => {
   const m = buildMessages({ spiritId: 'cobol', lang: 'fr', mode: 'talk', history: [], input: 'Bonjour' });
   assert.equal(m[0].role, 'system');
   assert.match(m[0].content, /français/i);
-  assert.deepEqual(m.at(-1), { role: 'user', content: 'Bonjour' });
+  assert.equal(m.at(-1).role, 'user');
+  assert.match(m.at(-1).content, /^Bonjour/);
   assert.match(buildMessages({ spiritId: 'cobol', lang: 'en', mode: 'talk', history: [], input: 'hi' })[0].content, /English/);
 });
 
@@ -50,4 +51,11 @@ test('checkCode', () => {
   assert.deepEqual(checkCode('a\n'.repeat(41)), { ok: false, reason: 'too_long' });
   assert.deepEqual(checkCode('x'.repeat(4001)), { ok: false, reason: 'too_long' });
   assert.deepEqual(checkCode('print(1)'), { ok: true });
+});
+
+test('le dernier message rappelle la langue (changement de langue en pleine séance)', () => {
+  const history = [{ role: 'user', content: 'Bonjour' }, { role: 'assistant', content: 'BONJOUR MORTEL.' }];
+  const m = buildMessages({ spiritId: 'cobol', lang: 'en', mode: 'talk', history, input: 'Who are you?' });
+  assert.match(m.at(-1).content, /^Who are you\?/);
+  assert.match(m.at(-1).content, /English/);
 });
