@@ -6,7 +6,7 @@ import { isLang, isSpirit, publicSpirits } from './lib/spirits.js';
 import { buildMessages } from './lib/prompts.js';
 import { parseEpitaph } from './lib/epitaph.js';
 import { checkCode } from './lib/limits.js';
-import { streamChat, chatJson, health, warmUp, OllamaDown } from './lib/ollama.js';
+import { streamChat, chatJson, health, warmUp, OllamaDown, ModelMissing } from './lib/ollama.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, 'public');
@@ -85,6 +85,10 @@ async function handleChat(req, res, ollamaUrl) {
     res.end(JSON.stringify({ done: true, ms: Date.now() - started }) + '\n');
   } catch (err) {
     if (err.name === 'AbortError') return;
+    if (err instanceof ModelMissing) {
+      if (!res.headersSent) return json(res, 503, { error: 'model_missing' });
+      return res.end(JSON.stringify({ error: 'model_missing' }) + '\n');
+    }
     if (!res.headersSent) return json(res, 503, { error: 'ollama_down' });
     res.end(JSON.stringify({ error: 'ollama_down' }) + '\n');
   }

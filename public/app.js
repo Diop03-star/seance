@@ -91,7 +91,7 @@ export function scrollLog() {
 }
 
 export function logError(code) {
-  const key = { ollama_down: 'errOllama', empty: 'errEmpty', too_long: 'errTooLong' }[code] ?? 'errGeneric';
+  const key = { ollama_down: 'errOllama', model_missing: 'errNoModel', empty: 'errEmpty', too_long: 'errTooLong' }[code] ?? 'errGeneric';
   logLine('err', t(key, state.lang));
 }
 

@@ -62,6 +62,25 @@ test('chat renvoie 503 si Ollama injoignable', () => withApp('http://127.0.0.1:1
   assert.deepEqual(await res.json(), { error: 'ollama_down' });
 }));
 
+test('chat renvoie 503 model_missing si le modèle est absent', async () => {
+  // Ollama is up but gemma4:e2b was never pulled: /api/chat answers 404.
+  const noModel = http.createServer((req, res) => {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ error: "model 'gemma4:e2b' not found" }));
+  });
+  const url = await listen(noModel);
+  try {
+    await withApp(url, async (base) => {
+      const res = await post(base, '/api/chat', { spiritId: 'cobol', lang: 'fr', mode: 'talk', history: [], input: 'Salut' });
+      assert.equal(res.status, 503);
+      assert.deepEqual(await res.json(), { error: 'model_missing' });
+    });
+  } finally {
+    noModel.close();
+  }
+});
+
 test('chat 400 too_long en possession', () => withApp(ollamaUrl, async (base) => {
   const res = await post(base, '/api/chat', { spiritId: 'cobol', lang: 'fr', mode: 'possess', history: [], input: 'x\n'.repeat(50) });
   assert.equal(res.status, 400);
